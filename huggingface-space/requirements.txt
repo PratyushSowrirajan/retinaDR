@@ -1,0 +1,11 @@
+torch==2.1.0
+torchvision==0.16.0
+pillow==10.0.1
+gradio==4.44.0
+numpy==1.24.3
+flask==3.0.0
+flask-cors==4.0.0
+huggingface_hub==0.30.2
+pydantic==2.10.6
+fastapi==0.112.2
+starlette==0.38.6

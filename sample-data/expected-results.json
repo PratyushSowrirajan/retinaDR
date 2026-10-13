@@ -1,0 +1,11 @@
+{
+  "model": "https://huggingface.co/spaces/PratyushZen/dr-detection",
+  "labels": [
+    "Patient has Diabetic Retinopathy",
+    "Patient does not have Diabetic Retinopathy"
+  ],
+  "cases": [
+    { "file": "YESDR.jpg", "expected": "Patient has Diabetic Retinopathy" },
+    { "file": "NODR.png", "expected": "Patient does not have Diabetic Retinopathy" }
+  ]
+}

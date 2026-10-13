@@ -1,0 +1,20 @@
+{
+  "name": "retina-dr-server",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "db:init": "node scripts/init-db.js",
+    "test": "node --test test/*.test.js",
+    "test:model": "node scripts/model-smoke-test.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "multer": "^1.4.5-lts.1",
+    "pdfkit": "^0.15.0",
+    "pg": "^8.12.0"
+  }
+}

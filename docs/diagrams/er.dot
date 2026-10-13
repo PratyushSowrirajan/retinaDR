@@ -1,0 +1,35 @@
+digraph ER {
+  rankdir=LR; pad=0.3; bgcolor="white"; fontname="Helvetica"; nodesep=0.6; ranksep=1.2;
+  node [shape=plain, fontname="Helvetica", fontsize=12];
+  edge [fontname="Helvetica", fontsize=11, color="#1F497D", penwidth=1.4];
+  patients [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#1F497D">
+      <TR><TD BGCOLOR="#1F497D" COLSPAN="2"><FONT COLOR="white"><B>patients</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>id</B></TD><TD ALIGN="LEFT">SERIAL  PK</TD></TR>
+      <TR><TD ALIGN="LEFT">mrn</TD><TD ALIGN="LEFT">TEXT  UNIQUE</TD></TR>
+      <TR><TD ALIGN="LEFT">full_name, dob, sex</TD><TD ALIGN="LEFT">demographics</TD></TR>
+      <TR><TD ALIGN="LEFT">phone, email, city, blood_group</TD><TD ALIGN="LEFT">contact</TD></TR>
+      <TR><TD ALIGN="LEFT">height_cm, weight_kg</TD><TD ALIGN="LEFT">NUMERIC</TD></TR>
+      <TR><TD ALIGN="LEFT">diabetes_type, diabetes_since_year</TD><TD ALIGN="LEFT">history</TD></TR>
+      <TR><TD ALIGN="LEFT">hba1c, fasting_glucose, cholesterol</TD><TD ALIGN="LEFT">labs</TD></TR>
+      <TR><TD ALIGN="LEFT">bp_systolic, bp_diastolic</TD><TD ALIGN="LEFT">vitals</TD></TR>
+      <TR><TD ALIGN="LEFT">smoking, hypertension, on_insulin</TD><TD ALIGN="LEFT">risk factors</TD></TR>
+      <TR><TD ALIGN="LEFT">medications, allergies, family_history</TD><TD ALIGN="LEFT">TEXT</TD></TR>
+      <TR><TD ALIGN="LEFT">previous_eye_treatment, symptoms</TD><TD ALIGN="LEFT">eye history</TD></TR>
+      <TR><TD ALIGN="LEFT">referring_physician</TD><TD ALIGN="LEFT">TEXT</TD></TR>
+    </TABLE>>];
+  screenings [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#F69240">
+      <TR><TD BGCOLOR="#F69240" COLSPAN="2"><FONT COLOR="white"><B>screenings</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>id</B></TD><TD ALIGN="LEFT">SERIAL  PK</TD></TR>
+      <TR><TD ALIGN="LEFT"><B>patient_id</B></TD><TD ALIGN="LEFT">FK to patients.id</TD></TR>
+      <TR><TD ALIGN="LEFT">screened_at, eye, visual_acuity</TD><TD ALIGN="LEFT">exam</TD></TR>
+      <TR><TD ALIGN="LEFT">image_path, image_name</TD><TD ALIGN="LEFT">fundus image</TD></TR>
+      <TR><TD ALIGN="LEFT">prediction, dr_detected</TD><TD ALIGN="LEFT">AI finding</TD></TR>
+      <TR><TD ALIGN="LEFT">confidence, prob_dr, prob_no_dr</TD><TD ALIGN="LEFT">NUMERIC</TD></TR>
+      <TR><TD ALIGN="LEFT">urgency, followup</TD><TD ALIGN="LEFT">care plan</TD></TR>
+      <TR><TD ALIGN="LEFT">clinical_snapshot</TD><TD ALIGN="LEFT">JSONB</TD></TR>
+      <TR><TD ALIGN="LEFT">notes, model_name</TD><TD ALIGN="LEFT">TEXT</TD></TR>
+    </TABLE>>];
+  patients -> screenings [label=" 1 : N", arrowhead=crow, arrowtail=tee, dir=both];
+}

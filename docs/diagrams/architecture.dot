@@ -1,0 +1,41 @@
+digraph RetinaDR {
+  rankdir=LR; splines=true; nodesep=0.45; ranksep=0.9; pad=0.4; bgcolor="white";
+  fontname="Helvetica"; labelloc=t; fontsize=22;
+  label=<<B>RetinaDR - System Architecture</B>>;
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=13, margin="0.2,0.12", color="#1F497D", penwidth=1.4, fillcolor="#EEF4FB"];
+  edge [fontname="Helvetica", fontsize=11, color="#475569", penwidth=1.3, arrowsize=0.8];
+
+  user [label=<<B>Clinician / Health worker</B><BR/><FONT POINT-SIZE="11">selects patient, uploads<BR/>fundus image, downloads report</FONT>>, fillcolor="#FDE6D2", color="#F69240"];
+
+  subgraph cluster_app {
+    label=<<B>Web application (PERN)</B>>; style="rounded,dashed"; color="#0070C0"; fontsize=15; fontname="Helvetica";
+    react [label=<<B>React client</B><BR/><FONT POINT-SIZE="11">Vite SPA - patient picker,<BR/>auto-filled record, upload,<BR/>result and history</FONT>>];
+    api   [label=<<B>Node.js + Express API</B><BR/><FONT POINT-SIZE="11">REST - patients, screenings,<BR/>follow-up rules, report</FONT>>, fillcolor="#DCEBFA"];
+    pdf   [label=<<B>pdfkit</B><BR/><FONT POINT-SIZE="11">one-page PDF report,<BR/>returned as a download</FONT>>];
+    files [label=<<B>Image store</B><BR/><FONT POINT-SIZE="11">server/uploads</FONT>>, shape=folder];
+    db    [label=<<B>PostgreSQL</B><BR/><FONT POINT-SIZE="11">patients, screenings<BR/>(prediction, confidence,<BR/>follow-up, clinical snapshot)</FONT>>, shape=cylinder, fillcolor="#E8F5EE", color="#1E8E5A"];
+  }
+
+  subgraph cluster_ai {
+    label=<<B>AI inference (Hugging Face Space)</B>>; style="rounded,dashed"; color="#F69240"; fontsize=15; fontname="Helvetica";
+    gradio [label=<<B>Gradio API</B><BR/><FONT POINT-SIZE="11">/upload then /call/predict</FONT>>, fillcolor="#FFF3E8", color="#F69240"];
+    model  [label=<<B>ResNet-50 classifier</B><BR/><FONT POINT-SIZE="11">PyTorch, 224x224 input,<BR/>2-class head: DR / No DR<BR/>resnet50_trained.pth</FONT>>, fillcolor="#FFF3E8", color="#F69240"];
+  }
+
+  subgraph cluster_train {
+    label=<<B>Offline training (Google Colab)</B>>; style="rounded,dashed"; color="#7F8FA6"; fontsize=15; fontname="Helvetica";
+    data  [label=<<B>Kaggle fundus dataset</B><BR/><FONT POINT-SIZE="11">DR / No_DR, train / valid / test</FONT>>, fillcolor="#F4F6F8", color="#7F8FA6"];
+    train [label=<<B>Fine-tune ResNet-50</B><BR/><FONT POINT-SIZE="11">ImageNet weights, Adam,<BR/>batch 32, 5 epochs</FONT>>, fillcolor="#F4F6F8", color="#7F8FA6"];
+  }
+
+  user -> react [label=" browser"];
+  react -> api  [label=" REST / JSON\n multipart image"];
+  api -> db     [label=" SQL"];
+  api -> files  [label=" save image"];
+  api -> gradio [label=" 1. upload image\n 2. predict"];
+  gradio -> model;
+  model -> gradio [style=dashed, label=" label + probabilities"];
+  api -> pdf    [label=" build report"];
+  data -> train;
+  train -> model [label=" exports weights", style=dashed, color="#7F8FA6"];
+}

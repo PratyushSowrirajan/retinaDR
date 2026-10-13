@@ -1,0 +1,13 @@
+{
+  "name": "retina-dr-website",
+  "private": true,
+  "scripts": {
+    "setup": "npm install && cd server && npm install && cd ../client && npm install && cd .. && npm run db:init",
+    "db:init": "cd server && npm run db:init",
+    "dev": "concurrently -n api,web -c cyan,magenta \"cd server && npm run dev\" \"cd client && npm run dev\"",
+    "test": "cd server && npm test"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

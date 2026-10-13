@@ -1,0 +1,26 @@
+# dependencies and build output
+node_modules/
+dist/
+
+# secrets and local config
+.env
+.env.*
+!.env.example
+
+# uploaded patient images (keep the folder)
+server/uploads/*
+!server/uploads/.gitkeep
+
+# model weights live on the Hugging Face Space, not in this repo
+*.pth
+*.pt
+
+# python / editor / OS
+__pycache__/
+*.pyc
+.venv/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
